@@ -12,6 +12,7 @@ class NeuralNetwork():
         self.neurons = neurons
         self.learningrate = learning
         self.weights = []
+        # initializing the weights with random values
         for i in range(self.layers):
             if i==0:
                 self.weights.append(np.random.random((self.inputno,neurons[i])))
@@ -19,6 +20,7 @@ class NeuralNetwork():
                 self.weights.append(np.random.random((neurons[i-1],neurons[i])))
             else:
                  self.weights.append(np.random.random((neurons[i-1],1)))
+                    
     def relu(self, x):
         for i in range(0, len(x)):
             if np.mean(x[i]) > 0:
@@ -41,6 +43,7 @@ class NeuralNetwork():
             out = self.think(input)
             error=[]
             delta = []
+            # calculting the error using backpropagation
             for k in range(len(out)):
                 if k == 0:
                     error.append(output - out[len(out)-1])
@@ -54,6 +57,7 @@ class NeuralNetwork():
                 delta.append(error[k]*self.relu_derv(out[len(out)-1-k]))
             if flag==1:
                 break
+            # updating weights based on the error and learning rate
             for k in range(len(out)):
                     if k == 0:
                         self.weights[k]+=np.dot(input.T,delta[k])*self.learningrate
